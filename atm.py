@@ -1,0 +1,234 @@
+"""
+Main Entry Point - ATM Simulation
+Run this file to start the ATM Machine
+"""
+from atmmachine.ui.menu import ATMMenu
+
+
+def main():
+    """Main function to start the ATM system"""
+    atm = ATMMenu()
+    atm.run()
+
+
+if __name__ == "__main__":
+    main()
+    """
+Account Model - Represents a bank account
+"""
+from datetime import datetime
+
+
+class Account:
+    """Class representing a bank account"""
+    
+    def __init__(self, account_number: str, holder_name: str, initial_balance: float = 0.0):
+        self.account_number = account_number
+        self.holder_name = holder_name
+        self.balance = initial_balance
+        self.created_at = datetime.now()
+    
+    def __str__(self):
+        return f"Account({self.account_number}, {self.holder_name}, Balance: ${self.balance:.2f})"
+    """
+Transaction Model - Represents a financial transaction
+"""
+from datetime import datetime
+from enum import Enum
+
+
+class TransactionType(Enum):
+    """Enumeration of transaction types"""
+    DEPOSIT = "Deposit"
+    WITHDRAWAL = "Withdrawal"
+
+
+class Transaction:
+    """Class representing a financial transaction"""
+    
+    def __init__(self, transaction_type: TransactionType, amount: float, balance_after: float):
+        self.transaction_type = transaction_type
+        self.amount = amount
+        self.balance_after = balance_after
+        self.timestamp = datetime.now()
+    
+    def __str__(self):
+        return f"{self.timestamp.strftime('%Y-%m-%d %H:%M:%S')} | {self.transaction_type.value:10} | ${self.amount:8.2f} | Balance: ${self.balance_after:.2f}"
+    """
+Bank Service - Business logic for banking operations
+"""
+from atmmachine.models.account import Account
+from atmmachine.models.transaction import Transaction, TransactionType
+
+
+class BankService:
+    """Service class for banking operations"""
+    
+    def __init__(self):
+        self.accounts = {}
+        self.current_account = None
+    
+    def create_account(self, account_number: str, holder_name: str, initial_balance: float = 0.0) -> Account:
+        """Create a new account"""
+        account = Account(account_number, holder_name, initial_balance)
+        self.accounts[account_number] = account
+        return account
+    
+    def get_account(self, account_number: str) -> Account:
+        """Retrieve an account by account number"""
+        return self.accounts.get(account_number)
+    
+    def set_current_account(self, account_number: str) -> bool:
+        """Set the current active account"""
+        account = self.get_account(account_number)
+        if account:
+            self.current_account = account
+            return True
+        return False
+    
+    def get_current_account(self) -> Account:
+        """Get the current active account"""
+        return self.current_account
+    
+    def deposit(self, amount: float) -> Transaction:
+        """Deposit money to current account"""
+        if self.current_account is None:
+            raise ValueError("No account selected")
+        
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
+        
+        self.current_account.balance += amount
+        transaction = Transaction(TransactionType.DEPOSIT, amount, self.current_account.balance)
+        return transaction
+    
+    def withdraw(self, amount: float) -> Transaction:
+        """Withdraw money from current account"""
+        if self.current_account is None:
+            raise ValueError("No account selected")
+        
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive")
+        
+        if amount > self.current_account.balance:
+            raise ValueError("Insufficient funds")
+        
+        self.current_account.balance -= amount
+        transaction = Transaction(TransactionType.WITHDRAWAL, amount, self.current_account.balance)
+        return transaction
+    
+    def get_balance(self) -> float:
+        """Get current account balance"""
+        if self.current_account is None:
+            raise ValueError("No account selected")
+        return self.current_account.balance
+    """
+ATM UI - User interface for ATM operations
+"""
+from atmmachine.services.bank_service import BankService
+from atmmachine.services.statement_service import StatementService
+
+
+class ATMMenu:
+    """Menu-driven UI for ATM operations"""
+    
+    def __init__(self):
+        self.bank_service = BankService()
+        self.statement_service = StatementService()
+        self._initialize_default_account()
+    
+    def _initialize_default_account(self):
+        """Initialize a default account for testing"""
+        self.bank_service.create_account("1234567890", "John Doe", 1000.0)
+        self.bank_service.set_current_account("1234567890")
+    
+    def display_main_menu(self):
+        """Display the main menu"""
+        print("\n" + "=" * 40)
+        print("       WELCOME TO ATM")
+        print("=" * 40)
+        print("1. Display Balance")
+        print("2. Withdraw Money")
+        print("3. Deposit Money")
+        print("4. Statement")
+        print("5. Exit")
+        print("=" * 40)
+    
+    def display_balance(self):
+        """Display current balance"""
+        try:
+            balance = self.bank_service.get_balance()
+            print(f"\nYour Current Balance: ${balance:.2f}")
+        except ValueError as e:
+            print(f"\nError: {e}")
+    
+    def withdraw_money(self):
+        """Handle withdrawal operation"""
+        try:
+            amount = float(input("\nEnter amount to withdraw: $"))
+            transaction = self.bank_service.withdraw(amount)
+            self.statement_service.add_transaction(transaction)
+            print(f"\nWithdrawal Successful!")
+            print(f"Amount Withdrawn: ${amount:.2f}")
+            print(f"Remaining Balance: ${self.bank_service.get_balance():.2f}")
+        except ValueError as e:
+            print(f"\nError: {e}")
+        except Exception as e:
+            print(f"\nUnexpected error: {e}")
+    
+    def deposit_money(self):
+        """Handle deposit operation"""
+        try:
+            amount = float(input("\nEnter amount to deposit: $"))
+            transaction = self.bank_service.deposit(amount)
+            self.statement_service.add_transaction(transaction)
+            print(f"\nDeposit Successful!")
+            print(f"Amount Deposited: ${amount:.2f}")
+            print(f"New Balance: ${self.bank_service.get_balance():.2f}")
+        except ValueError as e:
+            print(f"\nError: {e}")
+        except Exception as e:
+            print(f"\nUnexpected error: {e}")
+    
+    def display_statement(self):
+        """Display transaction statement"""
+        transactions = self.statement_service.get_statement()
+        print("\n" + "=" * 60)
+        print("         TRANSACTION STATEMENT")
+        print("=" * 60)
+        
+        if not transactions:
+            print("No transactions found.")
+        else:
+            print(f"{'Date & Time':<20} | {'Type':<10} | {'Amount':<10} | {'Balance'}")
+            print("-" * 60)
+            for trans in transactions:
+                print(trans)
+        
+        print("=" * 60)
+        print(f"Total Transactions: {self.statement_service.get_transaction_count()}")
+    
+    def run(self):
+        """Run the ATM menu system"""
+        while True:
+            self.display_main_menu()
+            choice = input("\nEnter your choice (1-5): ")
+            
+            if choice == '1':
+                self.display_balance()
+            elif choice == '2':
+                self.withdraw_money()
+            elif choice == '3':
+                self.deposit_money()
+            elif choice == '4':
+                self.display_statement()
+            elif choice == '5':
+                print("\nThank you for using ATM. Goodbye!")
+                break
+            else:
+                print("\nInvalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    atm = ATMMenu()
+    atm.run()
