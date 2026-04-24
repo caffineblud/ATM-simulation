@@ -5,22 +5,25 @@
 *The application follows a modular and object-oriented design, separating concerns into models, services, and a user interface layer for better maintainability and scalability.*
 
 ## Features
-**Account management with a default test account
-Deposit and withdrawal operations with validation
-Real-time balance inquiry
-Transaction history (mini statement) with timestamps
-Interactive command-line interface
-Error handling for invalid inputs and insufficient funds
-Project Structure**
+1)Account management with a default test account
+2)Deposit and withdrawal operations with validation
+3)Real-time balance inquiry
+4)Transaction history (mini statement) with timestamps
+5)Interactive command-line interface
+6)Error handling for invalid inputs and insufficient funds
+7)Project Structure
 
 *The project is organized into multiple components:*
 
 ## Models
-Account – Represents a bank account
-Transaction – Stores transaction details with type and timestamp
-Services
-BankService – Handles core banking logic (deposit, withdraw, balance)
-StatementService – Manages transaction records
+Account – Represents a bank account 
+
+Transaction – Stores transaction details with type and timestamp 
+
+BankService – Handles core banking logic (deposit, withdraw, balance) 
+
+StatementService – Manages transaction records 
+
 ## UI Layer
 ATMMenu – Provides a menu-driven interface for user interaction
 Entry Point
