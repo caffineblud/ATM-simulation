@@ -1,0 +1,54 @@
+from abc import ABC, abstractmethod
+
+# Abstract Class
+class Operation(ABC):
+    
+    def __init__(self, op_name, code_name, name):
+        self.__op_name = op_name      # Private variable
+        self.__code_name = code_name  # Private variable
+        self.__name = name            # Private variable
+
+    def show_details(self):
+        print("Operation Name :", self.__op_name)
+        print("Code Name      :", self.__code_name)
+        print("Name           :", self.__name)
+
+    @abstractmethod
+    def target(self):
+        pass
+
+
+# Derived Class 1
+class Jassi(Operation):
+    def target(self):
+        print("Jassi is the target of Operation Dhurandar.")
+
+
+# Derived Class 2
+class Jamil(Operation):
+    def target(self):
+        print("Jamil is the target of Operation Dhurandar.")
+
+
+# Derived Class 3
+class Rizwan(Operation):
+    def target(self):
+        print("Rizwan is the target of Operation Dhurandar.")
+
+
+# Main Program
+obj1 = Jassi("Dhurandar", "DH001", "Jassi")
+obj2 = Jamil("Dhurandar", "DH002", "Jamil")
+obj3 = Rizwan("Dhurandar", "DH003", "Rizwan")
+
+print("----- Jassi -----")
+obj1.show_details()
+obj1.target()
+
+print("\n----- Jamil -----")
+obj2.show_details()
+obj2.target()
+
+print("\n----- Rizwan -----")
+obj3.show_details()
+obj3.target()
