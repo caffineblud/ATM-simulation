@@ -1,98 +1,190 @@
-# ATM Simulation System
+<div align="center">
 
-*This project is a menu-driven ATM simulation system built using Python. It replicates the core functionalities of a real-world ATM, allowing users to perform basic banking operations such as checking balance, depositing money, withdrawing funds, and viewing transaction history.*
+# 🏧 ATM Simulation System
 
-*The application follows a modular and object-oriented design, separating concerns into models, services, and a user interface layer for better maintainability and scalability.*
+**A Python-based ATM simulation showcasing the evolution from a basic banking app to a fully modular, object-oriented system.**
 
-## Features
-1)Account management with a default test account 
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![OOP](https://img.shields.io/badge/Paradigm-OOP-brightgreen?style=for-the-badge)
+![JSON](https://img.shields.io/badge/Storage-JSON-orange?style=for-the-badge)
+![CLI](https://img.shields.io/badge/Interface-CLI-blueviolet?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
-2)Deposit and withdrawal operations with validation 
+</div>
 
-3)Real-time balance inquiry 
+---
 
-4)Transaction history (mini statement) with timestamps services 
+## 📁 Project Structure
 
-5)Interactive command-line interface 
+```
+ATM-Simulation-System/
+│
+├── 📂 v1-basic-atm/
+│   └── atm.py
+│
+├── 📂 v2-advanced-atm/
+│   ├── main.py
+│   ├── requirements.txt
+│   ├── README.md
+│   │
+│   ├── 📂 data/
+│   │   └── accounts.json
+│   │
+│   └── 📂 atm/
+│       ├── models/
+│       ├── services/
+│       ├── ui/
+│       ├── exceptions/
+│       └── utils/
+│
+└── README.md
+```
 
-6)Error handling for invalid inputs and insufficient funds 
+---
 
-7)Project Structure 
+## 🔖 Versions at a Glance
 
+| Version | Description | Complexity |
+|:-------:|-------------|:----------:|
+| `v1` | Basic ATM — single file | ⭐ Beginner |
+| `v2` | Advanced ATM — modular OOP | ⭐⭐⭐ Intermediate |
 
-*The project is organized into multiple components:*
+---
 
-## Models
-Account – Represents a bank account 
+## 🟢 Version 1 — Basic ATM
 
-Transaction – Stores transaction details with type and timestamp 
+> *A beginner-friendly ATM simulation built using a single Python file.*
 
-BankService – Handles core banking logic (deposit, withdraw, balance) 
+### ✨ Features
+- 💰 Display balance
+- 📥 Deposit money
+- 📤 Withdraw money
+- 🧾 Transaction statement
+- 🖥️ Menu-driven interface
 
-StatementService – Manages transaction records 
+### 🧠 Concepts Used
+- Python classes & functions
+- Conditional statements
+- Exception handling
+- Basic OOP principles
 
-## UI Layer
-ATMMenu – Provides a menu-driven interface for user interaction 
+---
 
-Entry Point 
+## 🔵 Version 2 — Advanced ATM System
 
-main.py – Starts the ATM application
-## How It Works
-The program initializes with a default account: 
- 
-Account Number: 1234567890 
+> *A modular and scalable ATM simulation built using advanced Object-Oriented Programming concepts.*
 
-Holder Name: John Doe 
+### ✨ Features
+- 🆕 Account creation
+- 🔐 PIN authentication
+- 🏦 Savings & Current accounts
+- 💸 Deposit & withdrawal system
+- 📊 Transaction history
+- 🗃️ JSON-based data storage
+- 🧩 Modular architecture
+- ⚠️ Custom exceptions
+- 🔄 Persistent account management
 
-Balance: $1000.00 
+---
 
-**Users interact through a menu with options to:**
-Check balance 
+## 🧬 Advanced OOP Concepts Implemented
 
-Withdraw money 
+| Concept | Usage |
+|---------|-------|
+| **Abstraction** | Abstract `BankAccount` class |
+| **Inheritance** | `SavingsAccount` and `CurrentAccount` |
+| **Encapsulation** | Protected account attributes |
+| **Polymorphism** | Different withdrawal behaviors |
+| **Exception Handling** | Custom banking exceptions |
+| **File Handling** | JSON storage system |
 
-Deposit money 
+---
 
-View transaction statement 
+## 🛠️ Technologies Used
 
-Exit the system 
+- 🐍 **Python 3**
+- 📄 **JSON**
+- 💻 **CLI-based Interface**
 
-**Each transaction is recorded with:**
-Type (Deposit/Withdrawal) 
+---
 
-Amount 
+## 🚀 How to Run
 
-Updated balance 
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/caffineblud/ATM-Simulation-System.git
+```
 
-Timestamp 
+### 2️⃣ Navigate to the Project
+```bash
+cd ATM-Simulation-System/v2-advanced-atm
+```
 
-## Technologies Used
-***Python 3***
+### 3️⃣ Run the Application
+```bash
+python main.py
+```
 
-***Object-Oriented Programming (OOP)*** 
+---
 
-***Built-in modules: datetime, enum***
+## 🖥️ Sample Menu
 
-## Purpose
+```
+====================================
+         PYTHON ATM SYSTEM
+====================================
+  1. Create Account
+  2. Login
+  3. Deposit
+  4. Withdraw
+  5. Check Balance
+  6. Transaction History
+  7. Exit
+====================================
+```
 
-*This project is designed to:*
+---
 
-Demonstrate OOP principles in Python 
+## 📚 Learning Outcomes
 
-Showcase clean architecture and separation of concerns 
+This project helped in understanding:
 
-Provide a beginner-friendly banking system simulation 
+- ✅ Real-world OOP implementation
+- ✅ Modular project architecture
+- ✅ Clean code organization
+- ✅ File persistence using JSON
+- ✅ Authentication systems
+- ✅ Exception management
 
-Serve as a base for more advanced systems (e.g., GUI, database integration) 
+---
 
+## 🔮 Future Improvements
 
-## Future Enhancements
+- [ ] 🖼️ GUI version using **Tkinter** or **PyQt**
+- [ ] 🗄️ **SQLite / MySQL** integration
+- [ ] 📱 **OTP** verification
+- [ ] 🛡️ Admin dashboard
+- [ ] 🌐 **REST API** version
+- [ ] 💻 Web-based banking interface
 
-Add multiple account support with authentication 
+---
 
-Integrate a database (SQLite/MySQL) 
+## 👤 Author
 
-Build a graphical user interface (GUI) 
+<div align="center">
 
-Add PIN-based security system 
+**Developed with ❤️ by Yash Kr Singh**
 
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/your-username)
+
+</div>
+
+---
+
+<div align="center">
+
+⭐ **If you found this project useful, consider giving it a star!** ⭐
+
+*It motivates further development and helps others discover this project.*
+
+</div>
